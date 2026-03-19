@@ -370,18 +370,25 @@
         section.infra-blueprint .content-container {
             max-width: 1360px;
             margin: 0 auto;
-            display: flex;
+            display: grid;
+            grid-template-columns: minmax(320px, 600px) minmax(320px, 1fr);
+            grid-template-areas:
+                "label visual"
+                "body visual";
             align-items: center;
-            justify-content: space-between;
-            gap: clamp(4.5rem, 8vw, 7rem);
+            gap: clamp(1.25rem, 2vw, 1.75rem) clamp(4.5rem, 8vw, 7rem);
             padding: 0 var(--page-x);
         }
 
-        section.infra-blueprint .infra-text {
-            flex: 0 0 600px;
+        section.infra-blueprint .info-label {
+            grid-area: label;
             z-index: 10;
-            display: flex;
-            flex-direction: column;
+            align-self: end;
+        }
+
+        section.infra-blueprint .info-body {
+            grid-area: body;
+            z-index: 10;
         }
 
         section.infra-blueprint .label {
@@ -448,7 +455,7 @@
         }
 
         section.infra-blueprint .visual-side {
-            flex: 1 1 0;
+            grid-area: visual;
             min-width: 0;
             height: 560px;
             display: flex;
@@ -558,11 +565,13 @@
 
         @media (max-width: 1100px) {
             section.infra-blueprint .content-container {
+                display: flex;
                 flex-direction: column;
                 text-align: center;
+                gap: 2rem;
             }
-            section.infra-blueprint .infra-text {
-                flex: 1 1 auto;
+            section.infra-blueprint .info-label,
+            section.infra-blueprint .info-body {
                 max-width: 680px;
             }
             section.infra-blueprint .visual-side {
@@ -608,15 +617,23 @@
             z-index: 2;
             width: min(1360px, 100%);
             margin: 0 auto;
-            display: flex;
+            display: grid;
+            grid-template-columns: minmax(320px, 520px) minmax(320px, 1fr);
+            grid-template-areas:
+                "category visual"
+                "body visual";
             align-items: center;
-            justify-content: space-between;
-            gap: clamp(4rem, 7vw, 6rem);
+            gap: clamp(1.25rem, 2vw, 1.75rem) clamp(4rem, 7vw, 6rem);
             padding: 0 var(--page-x);
         }
 
-        section.synergy-cosmic .text-side {
-            flex: 0 0 520px;
+        section.synergy-cosmic .category-wrap {
+            grid-area: category;
+            align-self: end;
+        }
+
+        section.synergy-cosmic .synergy-body {
+            grid-area: body;
             max-width: 520px;
         }
 
@@ -629,7 +646,7 @@
             margin-bottom: 20px;
         }
 
-        section.synergy-cosmic .text-side h2 {
+        section.synergy-cosmic .synergy-body h2 {
             font-size: clamp(2.8rem, 4.2vw, 3.8rem);
             font-weight: 900;
             line-height: 1.06;
@@ -656,7 +673,7 @@
         }
 
         section.synergy-cosmic .universe-system {
-            flex: 1 1 0;
+            grid-area: visual;
             position: relative;
             height: 720px;
             transform-style: preserve-3d;
@@ -837,15 +854,13 @@
                 padding: 60px var(--page-x);
             }
             section.synergy-cosmic .content-wrapper {
+                display: flex;
                 flex-direction: column;
                 text-align: center;
                 width: 100%;
             }
-            section.synergy-cosmic .text-side {
-                flex: 1 1 auto;
-                max-width: 680px;
-            }
-            section.synergy-cosmic .desc {
+            section.synergy-cosmic .synergy-body,
+            section.synergy-cosmic .category-wrap {
                 max-width: 680px;
             }
             section.synergy-cosmic .universe-system {
@@ -853,7 +868,7 @@
                 height: 520px;
                 margin-top: 50px;
             }
-            section.synergy-cosmic .text-side h2 {
+            section.synergy-cosmic .synergy-body h2 {
                 font-size: 40px;
             }
         }
@@ -895,8 +910,8 @@
                 gap: 3rem;
             }
 
-            section.infra-blueprint .infra-text {
-                flex-basis: 520px;
+            section.infra-blueprint .info-body {
+                max-width: 520px;
             }
 
             section.infra-blueprint .visual-side {
@@ -916,8 +931,8 @@
                 gap: 3rem;
             }
 
-            section.synergy-cosmic .text-side {
-                flex-basis: 470px;
+            section.synergy-cosmic .synergy-body,
+            section.synergy-cosmic .category-wrap {
                 max-width: 470px;
             }
 
@@ -1004,15 +1019,10 @@
                 display: flex;
             }
 
-            section.infra-blueprint .infra-text {
-                flex: 1 1 auto;
+            section.infra-blueprint .info-label,
+            section.infra-blueprint .info-body {
                 max-width: 680px;
-                display: contents;
             }
-
-            section.infra-blueprint .info-label { order: 1; }
-            section.infra-blueprint .visual-side { order: 2; }
-            section.infra-blueprint .info-body { order: 3; }
 
             section.infra-blueprint .description {
                 max-width: 680px;
@@ -1045,15 +1055,10 @@
                 display: flex;
             }
 
-            section.synergy-cosmic .text-side {
-                flex: 1 1 auto;
+            section.synergy-cosmic .category-wrap,
+            section.synergy-cosmic .synergy-body {
                 max-width: 680px;
-                display: contents;
             }
-
-            section.synergy-cosmic .category { order: 1; }
-            section.synergy-cosmic .universe-system { order: 2; }
-            section.synergy-cosmic .synergy-body { order: 3; }
 
             section.synergy-cosmic .desc {
                 max-width: 680px;
@@ -1174,7 +1179,7 @@
             .section-title,
             #proof .section-title,
             section.infra-blueprint .info-body h2,
-            section.synergy-cosmic .text-side h2 {
+            section.synergy-cosmic .synergy-body h2 {
                 font-size: clamp(2rem, 9vw, 2.8rem);
                 line-height: 1.12;
                 letter-spacing: -0.04em;
@@ -1337,14 +1342,6 @@
                 display: flex;
             }
 
-            /* 모바일 순서: 라벨 → 3D → 제목·설명·리스트 */
-            .infra-blueprint .infra-text {
-                display: contents;
-            }
-            .infra-blueprint .info-label { order: 1; }
-            .infra-blueprint .visual-side { order: 2; }
-            .infra-blueprint .info-body { order: 3; }
-
             .infra-blueprint .info-body h2 {
                 font-size: 36px;
                 line-height: 1.2;
@@ -1425,15 +1422,7 @@
                 display: flex;
             }
 
-            /* 모바일 순서: ORBITAL ECOSYSTEM → 3D → 제목 → 설명 */
-            .synergy-cosmic .text-side {
-                display: contents;
-            }
-            .synergy-cosmic .category { order: 1; }
-            .synergy-cosmic .universe-system { order: 2; }
-            .synergy-cosmic .synergy-body { order: 3; }
-
-            .synergy-cosmic .text-side h2 {
+            .synergy-cosmic .synergy-body h2 {
                 font-size: 40px;
                 line-height: 1.2;
                 letter-spacing: -2px;
@@ -1604,23 +1593,8 @@
 
     <section class="infra-blueprint" id="infrastructure">
         <div class="content-container">
-            <div class="infra-text">
-                <div class="info-side info-label">
-                    <span class="label">INFRASTRUCTURE DESIGN</span>
-                </div>
-                <div class="info-side info-body">
-                    <h2><span>웹·앱을 넘어선,</span><span class="title-line2 blue-text">데이터 인프라 설계.</span></h2>
-                    <p class="description">
-                        우리는 단순한 코딩을 넘어 비즈니스가 숨 쉴 수 있는 <strong>지형(Terrain)</strong>을 설계합니다.
-                        견고한 파운데이션 위에 쌓아 올리는 지속 가능한 시스템 아키텍처를 경험하세요.
-                    </p>
-                    <div class="capability-list">
-                        <div class="cap-item"><span>01</span> 시스템 아키텍처 설계</div>
-                        <div class="cap-item"><span>02</span> 데이터 파이프라인 구축</div>
-                        <div class="cap-item"><span>03</span> 플랫폼 레이어 최적화</div>
-                        <div class="cap-item"><span>04</span> 풀스택 서비스 엔지니어링</div>
-                    </div>
-                </div>
+            <div class="info-label">
+                <span class="label">INFRASTRUCTURE DESIGN</span>
             </div>
 
             <div class="visual-side">
@@ -1638,22 +1612,28 @@
                     </div>
                 </div>
             </div>
+
+            <div class="info-body">
+                <h2><span>웹·앱을 넘어선,</span><span class="title-line2 blue-text">데이터 인프라 설계.</span></h2>
+                <p class="description">
+                    우리는 단순한 코딩을 넘어 비즈니스가 숨 쉴 수 있는 <strong>지형(Terrain)</strong>을 설계합니다.
+                    견고한 파운데이션 위에 쌓아 올리는 지속 가능한 시스템 아키텍처를 경험하세요.
+                </p>
+                <div class="capability-list">
+                    <div class="cap-item"><span>01</span> 시스템 아키텍처 설계</div>
+                    <div class="cap-item"><span>02</span> 데이터 파이프라인 구축</div>
+                    <div class="cap-item"><span>03</span> 플랫폼 레이어 최적화</div>
+                    <div class="cap-item"><span>04</span> 풀스택 서비스 엔지니어링</div>
+                </div>
+            </div>
         </div>
     </section>
 
     <section class="synergy-cosmic" id="synergy">
         <div class="starfield"></div>
         <div class="content-wrapper">
-            <div class="text-side">
+            <div class="category-wrap">
                 <span class="category">ORBITAL ECOSYSTEM</span>
-                <div class="synergy-body">
-                    <h2><span>개발이 끝난 후에도,</span><span class="title-line2 highlight">중력은 작용합니다.</span></h2>
-                    <p class="desc">
-                        BAESH.DEV는 단순한 개발 스튜디오를 넘어,<br>
-                        당신의 비즈니스가 <strong>우리 생태계의 궤도 안에서</strong><br>
-                        끊임없이 에너지를 공급받게 합니다.
-                    </p>
-                </div>
             </div>
 
             <div class="universe-system">
@@ -1689,6 +1669,15 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="synergy-body">
+                <h2><span>개발이 끝난 후에도,</span><span class="title-line2 highlight">중력은 작용합니다.</span></h2>
+                <p class="desc">
+                    BAESH.DEV는 단순한 개발 스튜디오를 넘어,<br>
+                    당신의 비즈니스가 <strong>우리 생태계의 궤도 안에서</strong><br>
+                    끊임없이 에너지를 공급받게 합니다.
+                </p>
             </div>
         </div>
     </section>
