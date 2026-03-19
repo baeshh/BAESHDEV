@@ -993,12 +993,34 @@
             section.infra-blueprint .content-container {
                 flex-direction: column;
                 text-align: center;
-                gap: 2.75rem;
+                gap: 2rem;
+                display: flex;
             }
 
             section.infra-blueprint .info-side {
                 flex: 1 1 auto;
                 max-width: 680px;
+                display: contents;
+            }
+
+            section.infra-blueprint .label {
+                order: 1;
+            }
+
+            section.infra-blueprint .visual-side {
+                order: 2;
+            }
+
+            section.infra-blueprint .info-side h2 {
+                order: 3;
+            }
+
+            section.infra-blueprint .description {
+                order: 4;
+            }
+
+            section.infra-blueprint .capability-list {
+                order: 5;
             }
 
             section.infra-blueprint .description {
@@ -1028,13 +1050,20 @@
             section.synergy-cosmic .content-wrapper {
                 flex-direction: column;
                 text-align: center;
-                gap: 2.5rem;
+                gap: 2rem;
+                display: flex;
             }
 
             section.synergy-cosmic .text-side {
                 flex: 1 1 auto;
                 max-width: 680px;
+                display: contents;
             }
+
+            section.synergy-cosmic .category { order: 1; }
+            section.synergy-cosmic .universe-system { order: 2; }
+            section.synergy-cosmic .text-side h2 { order: 3; }
+            section.synergy-cosmic .desc { order: 4; }
 
             section.synergy-cosmic .desc {
                 max-width: 680px;
@@ -1068,8 +1097,16 @@
 
             .hero {
                 padding-top: 104px;
-                padding-bottom: 40px;
-                gap: 2rem;
+                padding-bottom: 48px;
+                gap: 2.5rem;
+            }
+
+            .text-area {
+                margin-bottom: 0.5rem;
+            }
+
+            .visual-area {
+                margin-top: 1rem;
             }
 
             .main-title {
@@ -1091,10 +1128,8 @@
                 line-height: 1.6;
             }
 
+            /* 모바일에서도 제목 줄바꿈 유지 (검증된 실행력. / 웹·앱을 넘어선, / 개발이 끝난 후에도,) */
             .description br,
-            #proof .section-title br,
-            section.infra-blueprint .info-side h2 br,
-            section.synergy-cosmic .text-side h2 br,
             section.synergy-cosmic .desc br {
                 display: none;
             }
