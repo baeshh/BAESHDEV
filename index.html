@@ -1344,11 +1344,18 @@
                 gap: 40px;
                 padding: 0 30px;
                 text-align: center;
+                display: flex;
             }
 
+            /* 모바일 순서: 라벨 → 3D → 제목 → 설명 → capability */
             .infra-blueprint .info-side {
-                width: 100%;
+                display: contents;
             }
+            .infra-blueprint .label { order: 1; }
+            .infra-blueprint .visual-side { order: 2; }
+            .infra-blueprint .info-side h2 { order: 3; }
+            .infra-blueprint .description { order: 4; }
+            .infra-blueprint .capability-list { order: 5; }
 
             .infra-blueprint .info-side h2 {
                 font-size: 36px;
@@ -1427,11 +1434,17 @@
                 gap: 40px;
                 padding: 0 30px;
                 text-align: center;
+                display: flex;
             }
 
+            /* 모바일 순서: ORBITAL ECOSYSTEM → 3D → 제목 → 설명 */
             .synergy-cosmic .text-side {
-                width: 100%;
+                display: contents;
             }
+            .synergy-cosmic .category { order: 1; }
+            .synergy-cosmic .universe-system { order: 2; }
+            .synergy-cosmic .text-side h2 { order: 3; }
+            .synergy-cosmic .desc { order: 4; }
 
             .synergy-cosmic .text-side h2 {
                 font-size: 40px;
