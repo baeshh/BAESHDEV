@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAESH.DEV | The Standard of Infrastructure</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --toss-blue: #3182f6;
+            --text-main: #191f28;
+            --text-sub: #4e5968;
+            --bg-white: #ffffff;
+            --line-soft: rgba(0, 0, 0, 0.04);
+            --pulse-bright: rgba(49, 130, 246, 1);
+            --pulse-mid: rgba(49, 130, 246, 0.6);
+            --pulse-dim: rgba(49, 130, 246, 0.3);
+            --wave-color: rgba(49, 130, 246, 0.4);
+            /* 해상도에 맞는 여백: 작은 화면은 최소, 큰 화면은 넉넉히 */
+            --page-x: clamp(1.5rem, 6vw, 8rem);
+            --page-y: clamp(3rem, 6vh, 5rem);
+            --content-max: 1280px;
+        }
+
+        * { box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-white);
+            color: var(--text-main);
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ─── 네비게이션 ─── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 24px var(--page-x);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 100%);
+            backdrop-filter: blur(12px);
+            transition: background 0.3s;
+        }
+        nav.scrolled { background: rgba(255,255,255,0.95); }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links a {
+            color: var(--text-sub);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: -0.02em;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--toss-blue); }
+
+        /* ─── Hero ─── */
+        .hero {
+            min-height: 100vh;
+            max-width: 1360px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--page-x);
+            gap: clamp(3.5rem, 6vw, 6.5rem);
+            perspective: 3000px;
+        }
+
+        .text-area {
+            flex: 0 0 520px;
+            z-index: 100;
+            max-width: 520px;
+        }
+
+        .main-title {
+            font-size: clamp(5rem, 12vw, 10rem);
+            font-weight: 900;
+            line-height: 0.8;
+            letter-spacing: -0.07em;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-title .dot { color: var(--toss-blue); }
+        .main-title .dev {
+            font-size: 0.4em;
+            color: #e5e8eb;
+            margin-left: 10px;
+            letter-spacing: -0.02em;
+        }
+
+        .slogan {
+            font-size: clamp(1rem, 1.5vw, 1.25rem);
+            color: var(--toss-blue);
+            font-weight: 700;
+            margin-top: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .description {
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            color: var(--text-sub);
+            margin-top: 1rem;
+            line-height: 1.4;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+        }
+
+        .visual-area {
+            flex: 0 0 580px;
+            position: relative;
+            height: 620px;
+            transform-style: preserve-3d;
+            transform: rotateX(50deg) rotateZ(-20deg);
+        }
+
+        .system-sculpture {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-style: preserve-3d;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        .layer {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+            box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.03);
+        }
+
+        .l1 { width: 450px; height: 450px; transform: translate(-50%, -50%) translateZ(0); border-radius: 60px; background: var(--text-main); color: white; justify-content: center; align-items: center; font-weight: 800; font-size: clamp(2.5rem, 5vw, 4rem); }
+        .l2 { width: 350px; height: 250px; transform: translate(-30%, -60%) translateZ(150px); border-radius: 30px; border-left: 8px solid var(--toss-blue); }
+        .l3 { width: 160px; height: 160px; transform: translate(-80%, -10%) translateZ(320px); border-radius: 24px; }
+
+        .visual-area:hover .l1 { transform: translate(-50%, -50%) translateZ(-100px); opacity: 0.9; filter: blur(0); }
+        .visual-area:hover .l2 { transform: translate(-30%, -60%) translateZ(250px); }
+        .visual-area:hover .l3 { transform: translate(-80%, -10%) translateZ(500px); box-shadow: 0 40px 100px rgba(49, 130, 246, 0.4); }
+
+        .pulse-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            pointer-events: none;
+        }
+
+        .particle-group {
+            position: absolute;
+            transform-style: preserve-3d;
+            animation: pulseFlow 4s infinite linear;
+            opacity: 0;
+        }
+
+        .p-node {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            transform-style: preserve-3d;
+            animation: collision 4s infinite linear;
+        }
+
+        .wave {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border: 2px solid var(--wave-color);
+            border-radius: 50%;
+            transform-style: preserve-3d;
+            animation: waveSpread 4s infinite linear;
+            opacity: 0;
+        }
+
+        .pg1 { top: -100px; left: -100px; animation-delay: 0s; }
+        .pg2 { top: -50px; left: 0px; animation-delay: 1.2s; }
+        .pg3 { top: 100px; left: 100px; animation-delay: 0.5s; }
+        .pg4 { top: 0px; left: -150px; animation-delay: 2s; }
+        .pg5 { top: 150px; left: -50px; animation-delay: 3s; }
+        .pg6 { top: 50px; left: 150px; animation-delay: 2.5s; }
+        .pg7 { top: -120px; left: 120px; animation-delay: 1s; }
+        .pg8 { top: 80px; left: -120px; animation-delay: 0.8s; }
+
+        .p1 { background: var(--pulse-bright); box-shadow: 0 0 15px var(--pulse-bright); }
+        .p2 { background: var(--pulse-mid); }
+        .p3 { background: var(--pulse-dim); }
+        .p4 { background: var(--pulse-bright); box-shadow: 0 0 15px var(--pulse-bright); }
+        .p5 { background: var(--pulse-mid); }
+        .p6 { background: var(--pulse-dim); }
+        .p7 { background: var(--pulse-bright); box-shadow: 0 0 10px var(--pulse-bright); }
+        .p8 { background: var(--pulse-mid); }
+
+        @keyframes pulseFlow {
+            0% { transform: translate(-50%, -50%) translateZ(550px); opacity: 0; }
+            10% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translate(-50%, -50%) translateZ(-150px); opacity: 0; }
+        }
+
+        @keyframes collision {
+            0% { transform: scale(1); opacity: 1; }
+            80% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0.2); opacity: 0; }
+        }
+
+        @keyframes waveSpread {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(0); opacity: 0; }
+            90% { opacity: 1; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateZ(0) translateY(0) rotateX(0); }
+            50% { transform: translateZ(20px) translateY(-15px) rotateX(3deg); }
+        }
+
+        .cta-wrap { margin-top: 4rem; }
+        .cta {
+            padding: 24px 60px;
+            background-color: var(--toss-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-block;
+        }
+        .cta:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(49, 130, 246, 0.3);
+        }
+
+        .layer-num { font-size: 0.8rem; color: #adb5bd; font-family: monospace; margin-bottom: 10px; }
+        .layer-text { font-size: 1.1rem; font-weight: 700; color: var(--text-main); line-height: 1.5; }
+
+        /* ─── 공통 섹션 ─── */
+        section {
+            min-height: auto;
+            padding: clamp(80px, 12vh, 140px) var(--page-x) clamp(60px, 10vh, 100px);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--toss-blue);
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.15;
+            margin: 0 0 48px;
+        }
+
+        /* ─── Proof ─── */
+        #proof {
+            max-width: 1360px;
+            padding-top: clamp(72px, 10vh, 96px);
+            padding-bottom: clamp(56px, 8vh, 72px);
+        }
+
+        #proof .section-title {
+            max-width: 760px;
+            font-size: clamp(2.8rem, 4.8vw, 4.5rem);
+            margin-bottom: 40px;
+        }
+
+        .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 28px;
+        }
+
+        .proof-card {
+            background: var(--bg-white);
+            border: 1px solid var(--line-soft);
+            border-radius: 24px;
+            padding: 34px 30px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .proof-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 0;
+            background: var(--toss-blue);
+            transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .proof-card:hover {
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.06);
+            border-color: rgba(49, 130, 246, 0.2);
+        }
+        .proof-card:hover::before { height: 100%; }
+
+        .proof-card .badge {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--toss-blue);
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+        }
+
+        .proof-card h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 0 0 12px;
+            letter-spacing: -0.03em;
+        }
+
+        .proof-card p {
+            color: var(--text-sub);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* ─── Infrastructure (Blueprint) ─── */
+        section.infra-blueprint {
+            padding: 112px 0 96px;
+            background: #ffffff;
+            font-family: 'Pretendard', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        section.infra-blueprint .content-container {
+            max-width: 1360px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: clamp(4.5rem, 8vw, 7rem);
+            padding: 0 var(--page-x);
+        }
+
+        section.infra-blueprint .info-side {
+            flex: 0 0 600px;
+            z-index: 10;
+        }
+
+        section.infra-blueprint .label {
+            color: #3182f6;
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        section.infra-blueprint .info-side h2 {
+            font-size: clamp(2.7rem, 4.3vw, 3.8rem);
+            font-weight: 900;
+            line-height: 1.04;
+            margin: 22px 0 24px;
+            letter-spacing: -3px;
+            color: #191f28;
+        }
+
+        section.infra-blueprint .blue-text {
+            color: #3182f6;
+        }
+
+        section.infra-blueprint .description {
+            font-size: clamp(1rem, 1.25vw, 19px);
+            color: #4e5968;
+            line-height: 1.72;
+            margin-bottom: 40px;
+            font-weight: 500;
+            max-width: 500px;
+        }
+
+        section.infra-blueprint .capability-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        section.infra-blueprint .cap-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #333d4b;
+            padding: 18px;
+            background: #f9fafb;
+            border-radius: 16px;
+            transition: 0.3s;
+        }
+
+        section.infra-blueprint .cap-item span {
+            color: #3182f6;
+            font-family: monospace;
+            font-size: 14px;
+            opacity: 0.5;
+        }
+
+        section.infra-blueprint .cap-item:hover {
+            transform: translateY(-5px);
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            color: #3182f6;
+        }
+
+        section.infra-blueprint .visual-side {
+            flex: 1 1 0;
+            min-width: 0;
+            height: 560px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 2000px;
+        }
+
+        section.infra-blueprint .scene-3d {
+            position: relative;
+            width: min(500px, 100%);
+            aspect-ratio: 1;
+            transform-style: preserve-3d;
+            transform: rotateX(65deg) rotateZ(-35deg);
+            animation: sceneFloat 8s infinite ease-in-out;
+        }
+
+        section.infra-blueprint .terrain-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #f2f4f6;
+            background: linear-gradient(rgba(49, 130, 246, 0.02) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(49, 130, 246, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform-style: preserve-3d;
+        }
+
+        section.infra-blueprint .map-node {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #3182f6;
+            border-radius: 50%;
+            transform-style: preserve-3d;
+            box-shadow: 0 0 20px rgba(49, 130, 246, 0.4);
+        }
+
+        section.infra-blueprint .map-node::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            height: 100px;
+            background: linear-gradient(to top, #3182f6, transparent);
+            transform: rotateX(-90deg);
+            transform-origin: bottom;
+        }
+
+        section.infra-blueprint .map-node.n1 { top: 20%; left: 20%; }
+        section.infra-blueprint .map-node.n2 { top: 70%; left: 30%; }
+        section.infra-blueprint .map-node.n3 { top: 40%; left: 80%; }
+
+        section.infra-blueprint .map-node.n4 {
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 60px;
+            margin-left: -30px;
+            margin-top: -30px;
+            background: #191f28;
+            color: #fff;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        section.infra-blueprint .terrain-wave {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            border: 2px solid rgba(49, 130, 246, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: waveExpand 4s infinite ease-out;
+        }
+
+        @keyframes sceneFloat {
+            0%, 100% { transform: rotateX(65deg) rotateZ(-35deg) translateZ(0); }
+            50% { transform: rotateX(60deg) rotateZ(-30deg) translateZ(20px); }
+        }
+
+        @keyframes waveExpand {
+            0% { width: 0; height: 0; opacity: 1; }
+            100% { width: 600px; height: 600px; opacity: 0; }
+        }
+
+        section.infra-blueprint .ping {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(49, 130, 246, 0.5);
+            border-radius: 50%;
+            animation: pingAnim 2s infinite;
+        }
+
+        @keyframes pingAnim {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(4); opacity: 0; }
+        }
+
+        @media (max-width: 1100px) {
+            section.infra-blueprint .content-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            section.infra-blueprint .info-side {
+                flex: 1 1 auto;
+                max-width: 680px;
+            }
+            section.infra-blueprint .visual-side {
+                width: 100%;
+                height: 400px;
+            }
+            section.infra-blueprint .scene-3d {
+                width: 400px;
+                height: 400px;
+            }
+            section.infra-blueprint .capability-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ─── Synergy (Cosmic / Orbital) - 원본 코드 그대로 적용 ─── */
+        section.synergy-cosmic {
+            position: relative;
+            min-height: 860px;
+            background: #ffffff;
+            font-family: 'Pretendard', sans-serif;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            perspective: 2000px;
+            padding: 96px 0 96px;
+        }
+
+        section.synergy-cosmic .starfield {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-image: radial-gradient(#e5e8eb 1px, transparent 0);
+            background-size: 60px 60px;
+            opacity: 0.5;
+            z-index: 1;
+        }
+
+        section.synergy-cosmic .content-wrapper {
+            position: relative;
+            z-index: 2;
+            width: min(1360px, 100%);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: clamp(4rem, 7vw, 6rem);
+            padding: 0 var(--page-x);
+        }
+
+        section.synergy-cosmic .text-side {
+            flex: 0 0 520px;
+            max-width: 520px;
+        }
+
+        section.synergy-cosmic .category {
+            color: #3182f6;
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: 2px;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        section.synergy-cosmic .text-side h2 {
+            font-size: clamp(2.8rem, 4.2vw, 3.8rem);
+            font-weight: 900;
+            line-height: 1.06;
+            letter-spacing: -3px;
+            color: #191f28;
+            margin: 0;
+        }
+
+        section.synergy-cosmic .highlight {
+            color: #3182f6;
+        }
+
+        section.synergy-cosmic .desc {
+            font-size: clamp(1rem, 1.2vw, 18px);
+            color: #4e5968;
+            line-height: 1.7;
+            margin-top: 24px;
+            font-weight: 500;
+            max-width: 460px;
+        }
+
+        section.synergy-cosmic .desc strong {
+            color: #191f28;
+        }
+
+        section.synergy-cosmic .universe-system {
+            flex: 1 1 0;
+            position: relative;
+            height: 720px;
+            transform-style: preserve-3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+        }
+
+        section.synergy-cosmic .sun-core {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            transform-style: preserve-3d;
+            z-index: 10;
+        }
+
+        section.synergy-cosmic .sun-inner {
+            width: 100%;
+            height: 100%;
+            background: #191f28;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 22px;
+            letter-spacing: 1px;
+            box-shadow: 0 0 60px rgba(49, 130, 246, 0.4);
+        }
+
+        section.synergy-cosmic .sun-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 180px;
+            height: 180px;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(49, 130, 246, 0.1);
+            border-radius: 50%;
+            background: transparent;
+            animation: pulseSun 3s infinite ease-out;
+        }
+
+        section.synergy-cosmic .sun-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 180px;
+            height: 180px;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(49, 130, 246, 0.1);
+            border-radius: 50%;
+            background: transparent;
+        }
+
+        section.synergy-cosmic .orbit-wrap {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transform-style: preserve-3d;
+            transform: rotateX(65deg) rotateY(-10deg);
+        }
+
+        section.synergy-cosmic .satellite-path {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            height: 500px;
+            margin-top: -250px;
+            margin-left: -250px;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            border-radius: 50%;
+            background: transparent;
+            transform-style: preserve-3d;
+            animation: orbitRotation 20s infinite linear;
+        }
+
+        section.synergy-cosmic .satellite {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            margin-left: 0;
+            transform: translate(-50%, -50%) rotateX(-65deg);
+            background: #fff;
+            padding: 15px 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        section.synergy-cosmic .satellite:hover {
+            transform: translate(-50%, -50%) rotateX(-65deg) scale(1.1);
+            border-color: #3182f6;
+        }
+
+        section.synergy-cosmic .s-idx {
+            font-size: 11px;
+            font-weight: 800;
+            color: #3182f6;
+        }
+
+        section.synergy-cosmic .s-label {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333d4b;
+            white-space: nowrap;
+        }
+
+        section.synergy-cosmic .satellite-path.p1 {
+            width: 320px;
+            height: 320px;
+            margin-top: -160px;
+            margin-left: -160px;
+            animation-duration: 15s;
+        }
+
+        section.synergy-cosmic .satellite-path.p2 {
+            width: 460px;
+            height: 460px;
+            margin-top: -230px;
+            margin-left: -230px;
+            animation-duration: 25s;
+            animation-delay: -5s;
+        }
+
+        section.synergy-cosmic .satellite-path.p3 {
+            width: 600px;
+            height: 600px;
+            margin-top: -300px;
+            margin-left: -300px;
+            animation-duration: 35s;
+            animation-delay: -10s;
+        }
+
+        section.synergy-cosmic .satellite-path.p4 {
+            width: 720px;
+            height: 720px;
+            margin-top: -360px;
+            margin-left: -360px;
+            animation-duration: 45s;
+            animation-delay: -15s;
+        }
+
+        section.synergy-cosmic .satellite.growth {
+            background: #3182f6;
+            border: none;
+        }
+
+        section.synergy-cosmic .satellite.growth .s-idx,
+        section.synergy-cosmic .satellite.growth .s-label {
+            color: #fff;
+        }
+
+        @keyframes orbitRotation {
+            from { transform: rotateZ(0deg); }
+            to { transform: rotateZ(360deg); }
+        }
+
+        @keyframes pulseSun {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+        }
+
+        @media (max-width: 1000px) {
+            section.synergy-cosmic {
+                height: auto;
+                min-height: 760px;
+                padding: 60px var(--page-x);
+            }
+            section.synergy-cosmic .content-wrapper {
+                flex-direction: column;
+                text-align: center;
+                width: 100%;
+            }
+            section.synergy-cosmic .text-side {
+                flex: 1 1 auto;
+                max-width: 680px;
+            }
+            section.synergy-cosmic .desc {
+                max-width: 680px;
+            }
+            section.synergy-cosmic .universe-system {
+                width: 100%;
+                height: 520px;
+                margin-top: 50px;
+            }
+            section.synergy-cosmic .text-side h2 {
+                font-size: 40px;
+            }
+        }
+
+        /* ─── 푸터 CTA ─── */
+        .footer-cta {
+            text-align: center;
+            padding: clamp(60px, 10vh, 100px) var(--page-x) clamp(80px, 12vh, 140px);
+        }
+
+        .footer-cta .cta {
+            padding: 28px 72px;
+            font-size: 1.25rem;
+        }
+
+        @media (max-width: 1280px) {
+            .hero {
+                min-height: auto;
+                padding-top: 128px;
+                padding-bottom: 80px;
+                gap: 3rem;
+            }
+
+            .text-area {
+                flex-basis: 46%;
+                max-width: 480px;
+            }
+
+            .visual-area {
+                flex-basis: min(44vw, 520px);
+                height: 540px;
+            }
+
+            #proof .section-title {
+                max-width: 680px;
+            }
+
+            section.infra-blueprint .content-container {
+                gap: 3rem;
+            }
+
+            section.infra-blueprint .info-side {
+                flex-basis: 520px;
+            }
+
+            section.infra-blueprint .visual-side {
+                height: 500px;
+            }
+
+            section.infra-blueprint .scene-3d {
+                width: min(440px, 100%);
+            }
+
+            section.synergy-cosmic {
+                min-height: 780px;
+                padding: 84px 0 80px;
+            }
+
+            section.synergy-cosmic .content-wrapper {
+                gap: 3rem;
+            }
+
+            section.synergy-cosmic .text-side {
+                flex-basis: 470px;
+                max-width: 470px;
+            }
+
+            section.synergy-cosmic .universe-system {
+                height: 620px;
+            }
+
+            section.synergy-cosmic .satellite-path.p3 {
+                width: 540px;
+                height: 540px;
+                margin-top: -270px;
+                margin-left: -270px;
+            }
+
+            section.synergy-cosmic .satellite-path.p4 {
+                width: 640px;
+                height: 640px;
+                margin-top: -320px;
+                margin-left: -320px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            nav {
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+
+            .hero {
+                flex-direction: column;
+                align-items: flex-start;
+                min-height: auto;
+                padding-top: 120px;
+                padding-bottom: 56px;
+                gap: 2.5rem;
+            }
+
+            .text-area {
+                flex: 1 1 auto;
+                max-width: 100%;
+            }
+
+            .main-title {
+                font-size: clamp(4.4rem, 13vw, 7rem);
+            }
+
+            .description {
+                font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+            }
+
+            .visual-area {
+                flex: none;
+                width: min(100%, 420px);
+                height: 400px;
+                margin: 20px auto 0;
+            }
+
+            .l1 { width: 320px; height: 320px; }
+            .l2 { width: 260px; height: 180px; }
+            .l3 { width: 120px; height: 120px; }
+
+            section {
+                padding-top: 72px;
+                padding-bottom: 64px;
+            }
+
+            #proof .section-title {
+                max-width: 100%;
+                font-size: clamp(2.4rem, 6vw, 3.4rem);
+            }
+
+            .proof-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            section.infra-blueprint {
+                padding: 88px 0 80px;
+            }
+
+            section.infra-blueprint .content-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 2.75rem;
+            }
+
+            section.infra-blueprint .info-side {
+                flex: 1 1 auto;
+                max-width: 680px;
+            }
+
+            section.infra-blueprint .description {
+                max-width: 680px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            section.infra-blueprint .visual-side {
+                width: 100%;
+                height: 420px;
+            }
+
+            section.infra-blueprint .scene-3d {
+                width: min(380px, 100%);
+            }
+
+            section.infra-blueprint .capability-list {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            section.synergy-cosmic {
+                min-height: auto;
+                padding: 80px 0 72px;
+            }
+
+            section.synergy-cosmic .content-wrapper {
+                flex-direction: column;
+                text-align: center;
+                gap: 2.5rem;
+            }
+
+            section.synergy-cosmic .text-side {
+                flex: 1 1 auto;
+                max-width: 680px;
+            }
+
+            section.synergy-cosmic .desc {
+                max-width: 680px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            section.synergy-cosmic .universe-system {
+                width: 100%;
+                height: 460px;
+            }
+
+            section.synergy-cosmic .orbit-wrap {
+                transform: rotateX(65deg) rotateY(-10deg) scale(0.78);
+            }
+        }
+
+        @media (max-width: 767px) {
+            :root {
+                --page-x: 20px;
+            }
+
+            nav {
+                padding-top: 18px;
+                padding-bottom: 18px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 104px;
+                padding-bottom: 40px;
+                gap: 2rem;
+            }
+
+            .main-title {
+                font-size: clamp(3.3rem, 18vw, 5rem);
+                line-height: 0.84;
+            }
+
+            .main-title .dev {
+                margin-left: 4px;
+            }
+
+            .slogan {
+                margin-top: 1rem;
+                font-size: 0.95rem;
+            }
+
+            .description {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+
+            .description br,
+            #proof .section-title br,
+            section.infra-blueprint .info-side h2 br,
+            section.synergy-cosmic .text-side h2 br,
+            section.synergy-cosmic .desc br {
+                display: none;
+            }
+
+            .cta-wrap {
+                margin-top: 2rem;
+            }
+
+            .cta,
+            .footer-cta .cta {
+                width: 100%;
+                text-align: center;
+                padding: 18px 24px;
+                font-size: 1rem;
+                border-radius: 16px;
+            }
+
+            .visual-area {
+                width: 100%;
+                max-width: 320px;
+                height: 320px;
+            }
+
+            .l1 {
+                width: 240px;
+                height: 240px;
+                border-radius: 36px;
+                font-size: 2rem;
+            }
+
+            .l2 {
+                width: 190px;
+                height: 140px;
+                border-radius: 22px;
+            }
+
+            .l3 {
+                width: 96px;
+                height: 96px;
+                border-radius: 18px;
+            }
+
+            section {
+                padding-top: 56px;
+                padding-bottom: 52px;
+            }
+
+            .section-label {
+                margin-bottom: 12px;
+            }
+
+            .section-title,
+            #proof .section-title,
+            section.infra-blueprint .info-side h2,
+            section.synergy-cosmic .text-side h2 {
+                font-size: clamp(2rem, 9vw, 2.8rem);
+                line-height: 1.12;
+                letter-spacing: -0.04em;
+                margin-bottom: 24px;
+            }
+
+            .proof-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .proof-card {
+                padding: 24px 20px;
+                border-radius: 18px;
+            }
+
+            section.infra-blueprint {
+                padding: 64px 0 56px;
+            }
+
+            section.infra-blueprint .content-container {
+                gap: 2rem;
+                padding: 0 var(--page-x);
+            }
+
+            section.infra-blueprint .description {
+                font-size: 0.98rem;
+                margin-bottom: 24px;
+            }
+
+            section.infra-blueprint .capability-list {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            section.infra-blueprint .cap-item {
+                padding: 14px 16px;
+                font-size: 0.95rem;
+                border-radius: 14px;
+                justify-content: flex-start;
+                text-align: left;
+            }
+
+            section.infra-blueprint .visual-side {
+                height: 300px;
+            }
+
+            section.infra-blueprint .scene-3d {
+                width: min(280px, 100%);
+            }
+
+            section.infra-blueprint .map-node.n4 {
+                width: 48px;
+                height: 48px;
+                margin-left: -24px;
+                margin-top: -24px;
+                font-size: 8px;
+            }
+
+            section.synergy-cosmic {
+                padding: 64px 0 56px;
+            }
+
+            section.synergy-cosmic .content-wrapper {
+                gap: 1.75rem;
+                padding: 0 var(--page-x);
+            }
+
+            section.synergy-cosmic .desc {
+                font-size: 0.98rem;
+                margin-top: 16px;
+            }
+
+            section.synergy-cosmic .universe-system {
+                height: 320px;
+                margin-top: 12px;
+            }
+
+            section.synergy-cosmic .sun-core {
+                width: 108px;
+                height: 108px;
+            }
+
+            section.synergy-cosmic .sun-inner {
+                font-size: 18px;
+            }
+
+            section.synergy-cosmic .sun-glow,
+            section.synergy-cosmic .sun-ring {
+                width: 136px;
+                height: 136px;
+            }
+
+            section.synergy-cosmic .orbit-wrap {
+                transform: rotateX(65deg) rotateY(-10deg) scale(0.54);
+            }
+
+            section.synergy-cosmic .satellite {
+                padding: 10px 16px;
+                border-radius: 14px;
+                gap: 8px;
+            }
+
+            section.synergy-cosmic .s-idx {
+                font-size: 10px;
+            }
+
+            section.synergy-cosmic .s-label {
+                font-size: 12px;
+            }
+
+            .footer-cta {
+                padding-top: 40px;
+                padding-bottom: 64px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .main-title {
+                font-size: 3rem;
+            }
+
+            .visual-area {
+                max-width: 280px;
+                height: 280px;
+            }
+
+            .l1 {
+                width: 220px;
+                height: 220px;
+            }
+
+            .l2 {
+                width: 170px;
+                height: 124px;
+            }
+
+            section.synergy-cosmic .universe-system {
+                height: 280px;
+            }
+
+            section.synergy-cosmic .orbit-wrap {
+                transform: rotateX(65deg) rotateY(-10deg) scale(0.46);
+            }
+        }
+
+        /* =========================================================================
+           사용자 제공 모바일 반응형 오버라이드
+           ========================================================================= */
+        @media (max-width: 900px) {
+            .infra-blueprint {
+                padding: 80px 0;
+            }
+
+            .infra-blueprint .content-container {
+                flex-direction: column;
+                gap: 40px;
+                padding: 0 30px;
+                text-align: center;
+            }
+
+            .infra-blueprint .info-side {
+                width: 100%;
+            }
+
+            .infra-blueprint .info-side h2 {
+                font-size: 36px;
+                line-height: 1.2;
+                letter-spacing: -1.5px;
+            }
+
+            .infra-blueprint .description {
+                font-size: 16px;
+                line-height: 1.6;
+                margin-bottom: 40px;
+                max-width: 100%;
+            }
+
+            .infra-blueprint .visual-side {
+                width: 100%;
+                height: 350px;
+            }
+
+            .infra-blueprint .scene-3d {
+                width: 300px;
+                height: 300px;
+                transform: scale(1.1) rotateX(60deg) rotateZ(-30deg);
+                animation: sceneFloatMobile 8s infinite ease-in-out;
+            }
+
+            @keyframes sceneFloatMobile {
+                0%, 100% { transform: scale(1.1) rotateX(60deg) rotateZ(-30deg) translateZ(0); }
+                50% { transform: scale(1.1) rotateX(55deg) rotateZ(-25deg) translateZ(10px); }
+            }
+
+            .infra-blueprint .terrain-grid {
+                border-width: 1.5px;
+                background-size: 30px 30px;
+            }
+
+            .infra-blueprint .map-node {
+                width: 10px;
+                height: 10px;
+            }
+
+            .infra-blueprint .map-node::before {
+                height: 60px;
+            }
+
+            .infra-blueprint .n4 {
+                width: 45px;
+                height: 45px;
+                margin-left: -22.5px;
+                margin-top: -22.5px;
+                font-size: 9px;
+            }
+
+            .infra-blueprint .terrain-wave {
+                animation: waveExpandMobile 4s infinite ease-out;
+            }
+
+            @keyframes waveExpandMobile {
+                0% { width: 0; height: 0; opacity: 1; }
+                100% { width: 350px; height: 350px; opacity: 0; }
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .synergy-cosmic {
+                padding: 80px 0;
+                height: auto;
+            }
+
+            .synergy-cosmic .starfield {
+                background-size: 40px 40px;
+            }
+
+            .synergy-cosmic .content-wrapper {
+                flex-direction: column;
+                gap: 40px;
+                padding: 0 30px;
+                text-align: center;
+            }
+
+            .synergy-cosmic .text-side {
+                width: 100%;
+            }
+
+            .synergy-cosmic .text-side h2 {
+                font-size: 40px;
+                line-height: 1.2;
+                letter-spacing: -2px;
+            }
+
+            .synergy-cosmic .desc {
+                font-size: 16px;
+                line-height: 1.6;
+                margin-top: 20px;
+                max-width: 100%;
+            }
+
+            .synergy-cosmic .universe-system {
+                width: 100%;
+                height: 450px;
+            }
+
+            .synergy-cosmic .sun-core {
+                width: 110px;
+                height: 110px;
+            }
+
+            .synergy-cosmic .sun-inner {
+                font-size: 18px;
+            }
+
+            .synergy-cosmic .sun-glow,
+            .synergy-cosmic .sun-ring {
+                width: 150px;
+                height: 150px;
+            }
+
+            .synergy-cosmic .orbit-wrap {
+                transform: scale(1.1) rotateX(60deg) rotateY(-10deg);
+            }
+
+            .synergy-cosmic .satellite-path {
+                border-width: 1.5px;
+            }
+
+            .synergy-cosmic .satellite {
+                padding: 12px 20px;
+                border-radius: 16px;
+                gap: 10px;
+                transform: translate(-50%, -50%) rotateX(-60deg);
+            }
+
+            .synergy-cosmic .satellite:hover {
+                transform: translate(-50%, -50%) rotateX(-60deg) scale(1.05);
+            }
+
+            .synergy-cosmic .s-label {
+                font-size: 13px;
+            }
+
+            .synergy-cosmic .s-idx {
+                font-size: 10px;
+            }
+
+            .synergy-cosmic .satellite-path.p1 {
+                width: 280px;
+                height: 280px;
+                margin-top: -140px;
+                margin-left: -140px;
+            }
+
+            .synergy-cosmic .satellite-path.p2 {
+                width: 400px;
+                height: 400px;
+                margin-top: -200px;
+                margin-left: -200px;
+            }
+
+            .synergy-cosmic .satellite-path.p3 {
+                width: 520px;
+                height: 520px;
+                margin-top: -260px;
+                margin-left: -260px;
+            }
+
+            .synergy-cosmic .satellite-path.p4 {
+                width: 640px;
+                height: 640px;
+                margin-top: -320px;
+                margin-left: -320px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="nav">
+        <a href="#" class="logo" style="font-weight:800; font-size:1.25rem; color:var(--text-main); text-decoration:none;">BAESH<span style="color:var(--toss-blue);">.</span>DEV</a>
+        <ul class="nav-links">
+            <li><a href="#proof">Proof</a></li>
+            <li><a href="#infrastructure">Infrastructure</a></li>
+            <li><a href="#synergy">Synergy</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero" id="hero">
+        <div class="text-area">
+            <h1 class="main-title">
+                <span class="top-row">BAESH<span class="dot">.</span></span>
+                <span class="dev">DEV</span>
+            </h1>
+            <p class="slogan">Proof of Build — 실행의 증명</p>
+            <p class="description">
+                우리는 보이지 않는 로직을 아름다운 실체로 구현합니다.<br>
+                비즈니스의 근간을 설계하고, 성장을 가속하는 프로젝트 인프라를 구축합니다.
+            </p>
+            <div class="cta-wrap">
+                <a href="#contact" class="cta">Start a Project</a>
+            </div>
+        </div>
+
+        <div class="visual-area">
+            <div class="system-sculpture">
+                <div class="pulse-container">
+                    <div class="particle-group pg1"><div class="p-node p1"></div><div class="wave w1"></div></div>
+                    <div class="particle-group pg2"><div class="p-node p2"></div><div class="wave w2"></div></div>
+                    <div class="particle-group pg3"><div class="p-node p3"></div><div class="wave w3"></div></div>
+                    <div class="particle-group pg4"><div class="p-node p4"></div><div class="wave w4"></div></div>
+                    <div class="particle-group pg5"><div class="p-node p5"></div><div class="wave w5"></div></div>
+                    <div class="particle-group pg6"><div class="p-node p6"></div><div class="wave w6"></div></div>
+                    <div class="particle-group pg7"><div class="p-node p7"></div><div class="wave w7"></div></div>
+                    <div class="particle-group pg8"><div class="p-node p8"></div><div class="wave w8"></div></div>
+                </div>
+                <div class="layer l1">CORE</div>
+                <div class="layer l2">
+                    <span class="layer-num">02 / ACHIEVEMENTS</span>
+                    <span class="layer-text">
+                        • CES Innovation Award<br>
+                        • Meta AI Hackathon<br>
+                        • Llama Academy
+                    </span>
+                </div>
+                <div class="layer l3">
+                    <span class="layer-num">01 / INFRASTRUCTURE</span>
+                    <span class="layer-text">Scalable System Architecture</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="proof">
+        <p class="section-label">PROOF</p>
+        <h2 class="section-title">검증된 실행력.<br>입이 아닌 결과로 말합니다.</h2>
+        <div class="proof-grid">
+            <article class="proof-card">
+                <span class="badge">AWARD</span>
+                <h3>CES 2026 혁신상</h3>
+                <p>국제 전시회에서 인정받은 혁신 솔루션. 아이디어를 넘어 상용화 가능한 프로덕트로 검증된 경력입니다.</p>
+            </article>
+            <article class="proof-card">
+                <span class="badge">HACKATHON</span>
+                <h3>Meta AI 해커톤 1위</h3>
+                <p>Meta 주최 AI 해커톤 우승. 제한된 시간 안에 아이디어를 구현하고 심사를 압도한 실행력의 증명입니다.</p>
+            </article>
+            <article class="proof-card">
+                <span class="badge">ACADEMY</span>
+                <h3>Meta Llama Academy</h3>
+                <p>Meta Llama 생태계 공식 프로그램 이수. 최신 AI/LLM 기술을 실전에 적용할 수 있는 역량을 보유하고 있습니다.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="infra-blueprint" id="infrastructure">
+        <div class="content-container">
+            <div class="info-side">
+                <span class="label">INFRASTRUCTURE DESIGN</span>
+                <h2>웹·앱을 넘어선,<br><span class="blue-text">데이터 인프라 설계.</span></h2>
+                <p class="description">
+                    우리는 단순한 코딩을 넘어 비즈니스가 숨 쉴 수 있는 <strong>지형(Terrain)</strong>을 설계합니다.
+                    견고한 파운데이션 위에 쌓아 올리는 지속 가능한 시스템 아키텍처를 경험하세요.
+                </p>
+
+                <div class="capability-list">
+                    <div class="cap-item"><span>01</span> 시스템 아키텍처 설계</div>
+                    <div class="cap-item"><span>02</span> 데이터 파이프라인 구축</div>
+                    <div class="cap-item"><span>03</span> 플랫폼 레이어 최적화</div>
+                    <div class="cap-item"><span>04</span> 풀스택 서비스 엔지니어링</div>
+                </div>
+            </div>
+
+            <div class="visual-side">
+                <div class="scene-3d">
+                    <div class="terrain-grid">
+                        <div class="grid-line h"></div><div class="grid-line h"></div><div class="grid-line h"></div>
+                        <div class="grid-line v"></div><div class="grid-line v"></div><div class="grid-line v"></div>
+
+                        <div class="map-node n1"><div class="ping"></div></div>
+                        <div class="map-node n2"><div class="ping"></div></div>
+                        <div class="map-node n3"><div class="ping"></div></div>
+                        <div class="map-node n4"><span>BAESH</span></div>
+
+                        <div class="terrain-wave"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="synergy-cosmic" id="synergy">
+        <div class="starfield"></div>
+        <div class="content-wrapper">
+            <div class="text-side">
+                <span class="category">ORBITAL ECOSYSTEM</span>
+                <h2>개발이 끝난 후에도,<br><span class="highlight">중력은 작용합니다.</span></h2>
+                <p class="desc">
+                    BAESH.DEV는 단순한 개발 스튜디오를 넘어,<br>
+                    당신의 비즈니스가 <strong>우리 생태계의 궤도 안에서</strong><br>
+                    끊임없이 에너지를 공급받게 합니다.
+                </p>
+            </div>
+
+            <div class="universe-system">
+                <div class="sun-core">
+                    <div class="sun-inner">BAESH</div>
+                    <div class="sun-glow"></div>
+                    <div class="sun-ring"></div>
+                </div>
+
+                <div class="orbit-wrap">
+                    <div class="satellite-path p1">
+                        <div class="satellite">
+                            <span class="s-idx">01</span>
+                            <div class="s-label">BAESH.DEV 개발</div>
+                        </div>
+                    </div>
+                    <div class="satellite-path p2">
+                        <div class="satellite active">
+                            <span class="s-idx">02</span>
+                            <div class="s-label">플랫폼 자동 연동</div>
+                        </div>
+                    </div>
+                    <div class="satellite-path p3">
+                        <div class="satellite">
+                            <span class="s-idx">03</span>
+                            <div class="s-label">네트워크 노출</div>
+                        </div>
+                    </div>
+                    <div class="satellite-path p4">
+                        <div class="satellite growth">
+                            <span class="s-idx">04</span>
+                            <div class="s-label">클라이언트 성장</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="footer-cta" id="contact">
+        <p style="font-size:1.2rem; color:var(--text-sub); font-weight:600; margin-bottom:24px;">프로젝트를 함께 설계해 보시겠어요?</p>
+        <a href="mailto:contact@baesh.dev" class="cta">Start a Project</a>
+    </div>
+
+    <script>
+        (function() {
+            var nav = document.getElementById('nav');
+            function onScroll() {
+                nav.classList.toggle('scrolled', window.scrollY > 60);
+            }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        })();
+    </script>
+</body>
+</html>

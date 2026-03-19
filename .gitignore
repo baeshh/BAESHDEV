@@ -1,0 +1,15 @@
+.DS_Store
+._*
+.DS_Store*
+
+.cursor/
+.vscode/
+
+.cache/
+.npm/
+.yarn/
+node_modules/
+
+*.log
+.env
+
