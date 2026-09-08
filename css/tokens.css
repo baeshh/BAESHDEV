@@ -1,0 +1,65 @@
+/* BAESHDEV — shared tokens
+   Quiet control room. Ink on warm paper. No glow, no pills, no 900 weights. */
+
+:root {
+  --bg:            #F3F2ED;
+  --bg-elev:       #FFFEFA;
+  --bg-sunken:     #EAE9E3;
+  --ink:           #161615;
+  --ink-2:         #3C3C37;
+  --muted:         #6E6E68;
+  --line:          #DDDBD3;
+  --line-2:        #C8C5BB;
+  --accent:        #1A47C4;
+  --accent-hover:  #1539A0;
+  --accent-soft:   #E7ECF7;
+  --cta:           #161615;
+  --cta-hover:     #2A2A26;
+  --on-cta:        #F3F2ED;
+  --green:         #1B6B3A;
+  --green-soft:    #E3EFE7;
+  --amber:         #8A5A00;
+  --amber-soft:    #F3EBD4;
+  --red:           #B42318;
+  --red-soft:      #F6E3E0;
+
+  --font: 'IBM Plex Sans KR', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --r-xs: 2px;
+  --r-sm: 4px;
+  --r:    4px;
+  --r-lg: 6px;
+  --r-xl: 8px;
+
+  --sidebar-w: 228px;
+  --header-h:  48px;
+  --chat-w:    336px;
+  --page-x:    clamp(24px, 5vw, 80px);
+
+  --shadow-xs: none;
+  --shadow-sm: 0 1px 0 rgba(22,22,21,.06);
+  --shadow:    0 1px 2px rgba(22,22,21,.06);
+  --shadow-lg: 0 8px 24px rgba(22,22,21,.08);
+  --shadow-xl: 0 16px 40px rgba(22,22,21,.12);
+
+  --t:      120ms ease;
+  --t-slow: 240ms ease;
+}
+
+/* Aliases so existing app.css variable names keep working */
+:root {
+  --bg-sub:       var(--bg);
+  --bg-card:      var(--bg-elev);
+  --bg-white:     var(--bg-elev);
+  --primary:      var(--accent);
+  --primary-hover:var(--accent-hover);
+  --primary-light:var(--accent-soft);
+  --primary-soft: var(--accent-soft);
+  --title:        var(--ink);
+  --body:         var(--ink-2);
+  --border:       var(--line);
+  --border-med:   var(--line-2);
+  --purple:       var(--ink-2);
+  --purple-soft:  var(--bg-sunken);
+}
