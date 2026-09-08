@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BAESHDEV — 하고 싶은 것만 말하세요</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+
+<nav id="nav">
+  <a href="home.html" class="nav-logo">BAESHDEV</a>
+  <ul class="nav-links">
+    <li><a href="#features">제품</a></li>
+    <li><a href="#how">구조</a></li>
+    <li><a href="#workspace">운영</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="app.html" class="btn-nav-ghost">로그인</a>
+    <a href="app.html?intent=make" class="btn-nav-primary">시작하기</a>
+  </div>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="메뉴 열기" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile" id="nav-mobile">
+  <a href="#features">제품</a>
+  <a href="#how">구조</a>
+  <a href="#workspace">운영</a>
+  <a href="app.html">로그인</a>
+  <a href="app.html?intent=make" class="btn-nav-primary">시작하기</a>
+</div>
+
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <div class="hero-kicker">코딩 몰라도 되는 만드는 곳</div>
+    <h1 class="hero-title">말하고, 바로 확인하세요.</h1>
+    <p class="hero-desc">
+      하고 싶은 서비스를 설명하면 화면이 나옵니다. 어려운 설정은 알아서 붙고, 빠진 건 우리가 먼저 알려줍니다.
+    </p>
+    <div class="hero-btns">
+      <a href="app.html?intent=make" class="btn-hero-primary">바로 만들어보기</a>
+      <button class="btn-hero-secondary" id="btn-demo-play">
+        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        30초 둘러보기
+      </button>
+    </div>
+    <div class="hero-meta">
+      <span>설치 없어요</span>
+      <span class="sep"></span>
+      <span>코딩 안 해도 돼요</span>
+      <span class="sep"></span>
+      <span>연습해도 안전해요</span>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="console">
+      <div class="console-bar">
+        <div class="console-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="console-path" id="console-path">console.baesh.dev / preview</div>
+        <div class="console-live">live demo</div>
+      </div>
+      <div class="console-body">
+        <aside class="console-rail" aria-hidden="true">
+          <div class="rail-label">Project</div>
+          <div class="rail-item" data-rail="overview">개요</div>
+          <div class="rail-item on" data-rail="workspace">개발 공간</div>
+          <div class="rail-label">Infra</div>
+          <div class="rail-item" data-rail="connections">연결</div>
+          <div class="rail-item" data-rail="infra">지도</div>
+          <div class="rail-label">Ops</div>
+          <div class="rail-item" data-rail="diagnostics">진단</div>
+          <div class="rail-item" data-rail="deploy">배포</div>
+        </aside>
+        <div class="scene-wrap" id="scene-wrap">
+          <canvas id="scene-canvas"></canvas>
+          <div class="scene-labels" id="scene-labels"></div>
+          <div class="demo-card" id="demo-card"></div>
+          <div class="demo-hud" id="demo-overlay">
+            <div class="demo-hud-row">
+              <span class="demo-hud-idx" id="demo-idx">01 / 06</span>
+              <span class="demo-step-msg" id="demo-step-msg">요청을 입력합니다</span>
+              <span class="demo-hud-clock" id="demo-clock">0:00</span>
+            </div>
+            <div class="demo-hud-track"><div class="demo-hud-fill" id="demo-fill"></div></div>
+            <div class="demo-hud-actions">
+              <button id="btn-demo-pause" title="일시정지">
+                <svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+              </button>
+              <button id="btn-demo-restart" title="다시 보기">
+                <svg viewBox="0 0 24 24"><polyline points="1,4 1,10 7,10"/><path d="M3.51,15a9,9,0,1,0,.49-4.5"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="proof">
+  <div class="proof-inner">
+    <div class="proof-item">
+      <div class="k">진단</div>
+      <div class="v">배포 전 구성 6항목 점검</div>
+    </div>
+    <div class="proof-item">
+      <div class="k">보안</div>
+      <div class="v">사실 / 추정 / 미확인을 분리</div>
+    </div>
+    <div class="proof-item">
+      <div class="k">비용</div>
+      <div class="v">미연결 항목은 0원으로 숨기지 않음</div>
+    </div>
+    <div class="proof-item">
+      <div class="k">운영</div>
+      <div class="v">오류를 최근 변경과 함께 추적</div>
+    </div>
+  </div>
+</section>
+
+<section class="lp-section" id="features">
+  <div class="lp-container">
+    <div class="section-index">01 — Build</div>
+    <h2 class="section-title">대화로 만들고, 화면으로 확인합니다</h2>
+    <p class="section-desc">설치 없이 브라우저에서 기능을 추가하고 레이아웃을 바꿉니다. 변경은 미리보기에 바로 반영됩니다.</p>
+
+    <div class="sec-a-layout">
+      <div class="sec-a-chat">
+        <div class="mock-chat-header">
+          <div class="mock-chat-dot"></div>
+          <span>Assistant</span>
+          <span class="tag-sm">context linked</span>
+        </div>
+        <div class="mock-messages" id="sec-a-messages"></div>
+        <div class="mock-suggestions" id="sec-a-suggestions">
+          <button class="sug-btn active" data-sug="reservation">예약 버튼 추가</button>
+          <button class="sug-btn" data-sug="mobile">모바일 화면</button>
+          <button class="sug-btn" data-sug="color">색상 변경</button>
+        </div>
+      </div>
+      <div class="sec-a-preview">
+        <div class="mock-browser">
+          <div class="mock-browser-bar">
+            <span class="mock-btn"></span><span class="mock-btn"></span><span class="mock-btn"></span>
+            <div class="mock-url">demo.baesh.dev / fit-center</div>
+          </div>
+          <div class="mock-preview-content" id="sec-a-preview-content"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lp-section lp-alt" id="how">
+  <div class="lp-container">
+    <div class="section-index">02 — Topology</div>
+    <h2 class="section-title">인프라를 추측하지 않습니다</h2>
+    <p class="section-desc">서버, 데이터베이스, 인증, 이메일의 연결과 상태를 지도로 봅니다. 구성 요소를 선택하면 역할, 제공자, 월 비용을 바로 확인합니다.</p>
+
+    <div class="sec-b-layout">
+      <div class="sec-b-map" id="sec-b-map">
+        <svg class="topo-wires" id="topo-wires" aria-hidden="true"></svg>
+        <button type="button" class="topo-node" data-id="domain">
+          <span class="topo-k">접속 주소</span>
+          <strong>도메인</strong>
+          <span class="topo-s ok">정상</span>
+        </button>
+        <button type="button" class="topo-node on" data-id="frontend">
+          <span class="topo-k">화면</span>
+          <strong>프론트</strong>
+          <span class="topo-s ok">정상</span>
+        </button>
+        <button type="button" class="topo-node" data-id="api">
+          <span class="topo-k">실행</span>
+          <strong>API</strong>
+          <span class="topo-s ok">정상</span>
+        </button>
+        <button type="button" class="topo-node" data-id="db">
+          <span class="topo-k">저장</span>
+          <strong>DB</strong>
+          <span class="topo-s warn">확인 필요</span>
+        </button>
+        <button type="button" class="topo-node" data-id="auth">
+          <span class="topo-k">로그인</span>
+          <strong>인증</strong>
+          <span class="topo-s ok">정상</span>
+        </button>
+        <button type="button" class="topo-node miss" data-id="email">
+          <span class="topo-k">알림 발송</span>
+          <strong>이메일</strong>
+          <span class="topo-s warn">미연결</span>
+        </button>
+        <div class="topo-legend">실선 연결됨 · 점선 미연결 · 구성 요소를 선택하세요</div>
+      </div>
+      <aside class="sec-b-detail" id="sec-b-detail"></aside>
+    </div>
+  </div>
+</section>
+
+<section class="lp-section" id="diagnostics-sec">
+  <div class="lp-container">
+    <div class="section-index">03 — Preflight</div>
+    <h2 class="section-title">배포 전에, 부족한 것부터 찾습니다</h2>
+    <p class="section-desc">코드와 설정을 대조해 빠진 연결, 환경변수, 마이그레이션을 표시합니다. 확정된 문제와 추가 확인이 필요한 항목을 구분합니다.</p>
+
+    <div class="sec-c-layout">
+      <div class="diag-list" id="sec-c-list"></div>
+      <div class="diag-detail-panel" id="sec-c-detail">
+        <div class="sec-b-hint">항목을 선택하면 영향과 해결 방법이 열립니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lp-section lp-alt">
+  <div class="lp-container">
+    <div class="section-index">04 — Cost</div>
+    <h2 class="section-title">비용은 가정과 함께 공개합니다</h2>
+    <p class="section-desc">방문자, 저장 용량, 발송량을 조절하면 월 운영비가 다시 계산됩니다. 연결되지 않은 서비스는 알 수 없음으로 남깁니다. 0원으로 처리하지 않습니다.</p>
+
+    <div class="sec-d-layout">
+      <div class="cost-controls">
+        <div class="cost-slider-group">
+          <div class="cost-slider-label">
+            <span>월 방문자 수</span>
+            <strong id="cost-val-users">200명</strong>
+          </div>
+          <input type="range" class="slider" id="sl-users" min="10" max="5000" step="10" value="200">
+          <div class="cost-slider-hint">방문자 수 외에도 기능·데이터 크기에 따라 달라집니다.</div>
+        </div>
+        <div class="cost-slider-group">
+          <div class="cost-slider-label">
+            <span>저장 용량</span>
+            <strong id="cost-val-storage">0.2GB</strong>
+          </div>
+          <input type="range" class="slider" id="sl-storage" min="0.1" max="20" step="0.1" value="0.2">
+        </div>
+        <div class="cost-slider-group">
+          <div class="cost-slider-label">
+            <span>월 이메일 발송</span>
+            <strong id="cost-val-email">500건</strong>
+          </div>
+          <input type="range" class="slider" id="sl-email" min="0" max="10000" step="100" value="500">
+          <div class="cost-slider-hint">이메일 서비스 미연결 시 실제 비용은 알 수 없습니다.</div>
+        </div>
+        <div class="cost-notice">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          단순 방문자 수만으로 정확한 비용을 산출하기 어렵습니다. 가정과 계산 범위를 함께 확인하십시오.
+        </div>
+      </div>
+      <div class="cost-result">
+        <div class="cost-total-card">
+          <div class="cost-total-label">이번 달 예상 합계</div>
+          <div class="cost-total-value" id="cost-total">₩12,150</div>
+          <div class="cost-total-sub">확인된 항목 기준 · USD 1 = KRW 1,350</div>
+        </div>
+        <div class="cost-breakdown" id="cost-breakdown"></div>
+        <div class="cost-unknown">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span>알 수 없는 항목: <strong>이메일, 파일 저장소</strong> (미연결)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lp-section" id="workspace">
+  <div class="lp-container">
+    <div class="section-index">05 — Operations</div>
+    <h2 class="section-title">배포 이후에도 같은 콘솔입니다</h2>
+    <p class="section-desc">배포 기록, 오류, 원인 추정, 관련 변경을 한 화면에서 봅니다. 확인된 사실과 추정 원인을 섞지 않습니다.</p>
+
+    <div class="sec-e-layout">
+      <div class="sec-e-monitor">
+        <div class="monitor-stats">
+          <div class="monitor-stat ok">
+            <div class="ms-label">Status</div>
+            <div class="ms-value">정상</div>
+            <div class="ms-sub">응답 중</div>
+          </div>
+          <div class="monitor-stat ok">
+            <div class="ms-label">p50 latency</div>
+            <div class="ms-value">182ms</div>
+            <div class="ms-sub">오늘 기준</div>
+          </div>
+          <div class="monitor-stat warn">
+            <div class="ms-label">Errors</div>
+            <div class="ms-value">3</div>
+            <div class="ms-sub">확인 필요</div>
+          </div>
+          <div class="monitor-stat ok">
+            <div class="ms-label">Requests</div>
+            <div class="ms-value">1,247</div>
+            <div class="ms-sub">오늘 총합</div>
+          </div>
+        </div>
+        <div class="error-list">
+          <div class="error-item" id="sec-e-error" onclick="showSecEAnalysis()">
+            <div class="error-code">500</div>
+            <div class="error-body">
+              <div class="error-msg">TypeError: Cannot read properties of undefined</div>
+              <div class="error-path">/api/reservations/cancel · 2</div>
+            </div>
+            <button class="btn-sm btn-secondary" style="flex-shrink:0">분석</button>
+          </div>
+        </div>
+        <div class="ai-analysis-panel" id="sec-e-analysis" style="display:none">
+          <div class="aap-title">오류 분석 <span class="tag-demo-sm">demo</span></div>
+          <div class="aap-grid">
+            <div class="aap-col confirmed">
+              <div class="aap-col-title">Confirmed</div>
+              <ul><li>/api/reservations/cancel 에서 발생</li><li>최근 배포 이후 나타남</li><li>총 2회</li></ul>
+            </div>
+            <div class="aap-col estimated">
+              <div class="aap-col-title">Estimated</div>
+              <ul><li>존재하지 않는 예약 ID 요청 시 undefined 반환</li><li>undefined에 .id 접근</li></ul>
+            </div>
+            <div class="aap-col needs-check">
+              <div class="aap-col-title">Needs check</div>
+              <ul><li>실제 요청 파라미터</li><li>해당 ID의 DB 존재 여부</li></ul>
+            </div>
+          </div>
+          <a href="app.html" class="btn-sm btn-primary" style="display:inline-flex;margin-top:16px">작업 공간에서 수정</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lp-cta">
+  <div class="lp-container">
+    <div class="cta-kicker">Get started</div>
+    <h2 class="cta-title">운영 가능한 상태로<br>내보냅니다.</h2>
+    <p class="cta-desc">데모 프로젝트로 빌드부터 배포, 오류 분석까지 전체 흐름을 확인할 수 있습니다. 실제 클라우드 리소스는 생성되지 않습니다.</p>
+    <div class="cta-btns">
+      <a href="app.html" class="btn-hero-primary">데모 프로젝트 열기</a>
+      <a href="#hero" class="btn-hero-secondary">제품 다시 보기</a>
+    </div>
+  </div>
+</section>
+
+<footer class="lp-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">BAESHDEV</div>
+      <p class="footer-blurb">아이디어를 서비스로 만들고, 인프라와 운영을 한 콘솔에서 관리하는 클라우드 개발 플랫폼입니다.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="#features">개발 공간</a>
+      <a href="#how">인프라 지도</a>
+      <a href="#diagnostics-sec">배포 전 진단</a>
+      <a href="#workspace">운영 모니터링</a>
+    </div>
+    <div class="footer-col">
+      <h4>Console</h4>
+      <a href="app.html">작업 공간</a>
+      <a href="app.html">새 프로젝트</a>
+      <a href="app.html">배포 관리</a>
+    </div>
+    <div class="footer-col">
+      <h4>Note</h4>
+      <p>이 페이지의 모든 수치는 데모입니다. 실제 과금·배포·외부 연결은 이루어지지 않습니다.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 BAESHDEV</span>
+    <span>Demo simulation · no live resources</span>
+  </div>
+</footer>
+
+<script src="js/scene.js"></script>
+<script src="js/landing.js"></script>
+</body>
+</html>
