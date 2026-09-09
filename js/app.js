@@ -588,13 +588,27 @@ function renderConnections() {
   refreshBadges();
 }
 
+function connMark(id) {
+  const marks = {
+    github: '<circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M6 8.5v7"/><path d="M8.2 16.2A7 7 0 0 0 16 8.5"/>',
+    vercel: '<polygon points="12 4 20 19 4 19"/>',
+    supabase: '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/>',
+    resend: '<rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/>',
+    sentry: '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+    cloudflare: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 4 9 14 14 0 0 1-4 9 14 14 0 0 1-4-9 14 14 0 0 1 4-9z"/>',
+    stripe: '<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20"/>',
+    aws: '<path d="M21 8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>',
+  };
+  return `<svg viewBox="0 0 24 24" aria-hidden="true">${marks[id] || '<circle cx="12" cy="12" r="3"/>'}</svg>`;
+}
+
 function connCard(s) {
   const stMap = { connected:['tag-green','연결됨'], disconnected:['tag-gray','미연결'], error:['tag-red','오류'] };
   const [stTag, stLabel] = stMap[s.status] || ['tag-gray','알 수 없음'];
   const accLabel = { readwrite:'읽기 + 변경', readonly:'읽기 전용' }[s.access] || '';
   return `
     <div class="conn-card ${s.status}">
-      <div class="conn-icon">${s.icon}</div>
+      <div class="conn-icon">${connMark(s.id)}</div>
       <div class="conn-body">
         <div style="display:flex;align-items:center;gap:7px;margin-bottom:2px;">
           <span class="conn-name">${s.name}</span>
@@ -694,7 +708,6 @@ function drawInfra2D(container) {
     <div class="infra-node ${n.status}${!n.connected?' missing':''}"
       style="left:${n.x}px;top:${n.y}px;min-width:110px;"
       onclick="showNodeDetail('${n.id}')">
-      <div class="infra-node-icon">${n.icon}</div>
       <div class="infra-node-label">${n.label}</div>
       <div class="infra-node-status">${n.provider}</div>
       ${n.issues?.length ? '<div style="font-size:.64rem;color:var(--amber);margin-top:2px;">확인 필요</div>' : ''}
@@ -716,7 +729,6 @@ function drawInfra3D(container) {
         ${nodes.map((n, i) => {
           const cols = 4, x = (i%cols)*130+20, y = Math.floor(i/cols)*130+20, z = i%2===0?40:-40;
           return `<div style="position:absolute;left:${x}px;top:${y}px;background:var(--bg-card);border:1.5px solid var(--border);border-radius:12px;padding:12px;text-align:center;width:110px;transform:rotateX(28deg) rotateY(-12deg) translateZ(${z}px);box-shadow:0 ${z>0?12:4}px ${z>0?28:10}px rgba(15,23,42,${z>0?.12:.06});cursor:pointer;transition:.3s;font-size:.78rem;" onclick="showNodeDetail('${n.id}')" onmouseover="this.style.transform='rotateX(28deg) rotateY(-12deg) translateZ(${z+18}px) scale(1.04)'" onmouseout="this.style.transform='rotateX(28deg) rotateY(-12deg) translateZ(${z}px)'">
-            <div style="font-size:1.2rem;margin-bottom:4px;">${n.icon}</div>
             <div style="font-weight:700;color:var(--title);">${n.label}</div>
             <div style="color:var(--muted);font-size:.68rem;margin-top:2px;">${n.provider}</div>
             <span class="dot ${n.status==='ok'?'dot-ok':n.status==='missing'?'dot-idle':'dot-warn'}" style="margin:4px auto 0;display:block;"></span>
@@ -750,7 +762,6 @@ window.showNodeDetail = function(id) {
     panel.innerHTML = `
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
         <div style="display:flex;align-items:center;gap:7px;">
-          <span style="font-size:1.2rem;">${n.icon}</span>
           <strong style="font-size:.95rem;">${n.label}</strong>
         </div>
         <button onclick="document.querySelectorAll('.infra-detail').forEach(p=>p.classList.remove('open'))" style="cursor:pointer;font-size:1rem;color:var(--muted);background:none;border:none;">×</button>
@@ -773,7 +784,6 @@ function renderNodeList() {
   $('infra-node-list').innerHTML = Object.values(AppState.infraNodes).map(n => `
     <div class="card card-sm" style="cursor:pointer;" onclick="showNodeDetail('${n.id}')">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-        <span style="font-size:1.2rem;">${n.icon}</span>
         <div style="flex:1;min-width:0;">
           <div style="font-weight:800;font-size:.85rem;">${n.label}</div>
           <div style="font-size:.72rem;color:var(--muted);">${n.type}</div>

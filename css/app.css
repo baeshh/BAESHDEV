@@ -305,7 +305,13 @@ img { display: block; max-width: 100%; }
 .conn-card.connected    { border-left: 2px solid var(--green); }
 .conn-card.disconnected { border-left: 2px solid var(--line-2); }
 .conn-card.error        { border-left: 2px solid var(--red); }
-.conn-icon { width: 40px; height: 40px; border-radius: var(--r-sm); background: var(--bg-sub); display:flex; align-items:center; justify-content:center; font-size:1.25rem; flex-shrink:0; }
+.conn-icon {
+  width: 36px; height: 36px; border-radius: var(--r-sm);
+  background: var(--bg); border: 1px solid var(--line);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  color: var(--ink-2);
+}
+.conn-icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 .conn-body { flex: 1; min-width: 0; }
 .conn-name { font-weight: 800; font-size: .9rem; color: var(--title); margin-bottom: 2px; }
 .conn-desc { font-size: .78rem; color: var(--body); margin-bottom: 8px; }
@@ -575,7 +581,6 @@ img { display: block; max-width: 100%; }
 .infra-node.warn  { border-top: 3px solid var(--amber); }
 .infra-node.error { border-top: 3px solid var(--red); }
 .infra-node.missing { border-style: dashed; opacity: .7; }
-.infra-node-icon   { font-size: 1.3rem; margin-bottom: 3px; }
 .infra-node-label  { font-size: .75rem; font-weight: 700; color: var(--title); }
 .infra-node-status { font-size: .68rem; color: var(--muted); margin-top: 1px; }
 .infra-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
